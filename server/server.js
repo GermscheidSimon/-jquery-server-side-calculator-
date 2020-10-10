@@ -7,15 +7,27 @@ app.use(express.static('./server/public'));
 // let express know how to use bodyparser
 app.use(bodyParser.urlencoded({extended: true}));
 // require module functionality here
-const calcHistory = require('modules/calcHistory.js');
-const evaluate = require('module/evaluate.js');
-const parseExpression = require('module/parseExpression.js');
+const calcHistory = require('modules/calcHistory.js'); //stores expressions that are sent from client
+const parseExpression = require('module/parseExpression.js'); //reformates expressions to be solved more efficiently 
+const evaluate = require('module/evaluate.js'); //evaluates new expression
 // GET and POST routing 
 
 // Define calcHistory GET request to provide user with requested data
+app.length('/calcHistory', (req, res) =>{
+    res.send(calcHistory);
+})
 
 // Define calcHistory POST requiest to update the history with the answer and new data
+app.post('/calcHistory', (req, res) =>{
+    calcHistory.push(req.body);
+    parseExpression(calcHistory.newExpression); // evaluate newest expression
+    res.sendstatus(200);
+})
 
+
+// to do
+//  -- add eval'd answer to calc history for future
+//  -- determine how answer will be sent to client along with history ( maybe just add to calcHistory and send the whole thing to be displayed there)
 
 
 // Since most of the logic is to be handed off to the serverside, the main thing I wanted to complete on the client is create a easily parsable object
