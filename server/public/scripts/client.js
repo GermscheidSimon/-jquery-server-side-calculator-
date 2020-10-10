@@ -2,7 +2,9 @@
 $(document).ready(onReady);
 
 function onReady() {
-    
+    // using buttons instead of an input field lets me controll the integrity of the data. 
+    // you can't input letters, and I have simple conditions that the expression has to meet in order for the 
+    // client to accept it. 
     $('.charInput').on('click', buildNum); //build a floating point value 
     $('.operInput').on('click', addOpp); // add operators inbetween a value
     $('.modInput').on('click', runMod); // reset button, submit expression, clear expression, and backspace
@@ -40,6 +42,8 @@ function runMod() { // this function defines a list of buttons that perform misc
     
     if (mod === 'equal') {
         addValueToExp(value);
+        console.log(expression);
+        postExpression();
         expression = [];
         appendExpToDOM;
     } else if (mod === 'clearExp') {
@@ -82,4 +86,19 @@ function appendExpToDOM(){ // this function just displays the new expression as 
 function appendValueToDom(char){ //the value is displayed as you'ring building it, so I made this seporate function to just show this
     console.log(char)
     $('#display').append(char)
+}
+
+function postExpression() {
+    $.ajax({
+        method: 'POST',
+        url: '/calcHistory',
+        data:{
+            "expression": expression,
+            "answer": 0
+        }
+    }).then((response) =>{
+        console.log(response);
+    }).catch((error) =>{
+        alert(error);
+    })
 }

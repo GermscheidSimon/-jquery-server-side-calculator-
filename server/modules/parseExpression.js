@@ -1,9 +1,10 @@
 let parsedExpression = [];
 
-function ParseAndOrderExp(params) {
-    // determine weight of operators 
+function parseAndOrderExp(expression) {
+    console.log('hello from parse fnc', expression);
 
-    // account for parenthases
+    
+    // determine weight of operators 
 
     // formulate new expression that the computer can simplay evaluate and return
 
@@ -11,4 +12,7 @@ function ParseAndOrderExp(params) {
 }
 
 
-module.exports = parsedExpression
+module.exports = {
+    function: parseAndOrderExp,
+    parsedExpression: parsedExpression
+}
