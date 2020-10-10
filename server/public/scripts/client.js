@@ -36,7 +36,9 @@ function addOpp() { // operators seporate floating point values, and also carry 
 
 function runMod() { // this function defines a list of buttons that perform misc functions. 
     let mod = $(this).attr('id')
-    if (mod = 'equal') {
+    console.log(mod);
+    
+    if (mod === 'equal') {
         addValueToExp(value);
         expression = [];
         appendExpToDOM;
@@ -52,20 +54,21 @@ function runMod() { // this function defines a list of buttons that perform misc
         // empty DOM field
         appendExpToDOM()
     } else if (mod === 'bckSpc') {
+        addValueToExp(value);
         value = 0
+        //remove last item in expression
         expression.pop()
         //append new expression to DOM
         appendExpToDOM();
     }
 }
 
-function addValueToExp(currentValue) {
+function addValueToExp(currentValue) {// this function displays the value as it is being assembled. 
     let integer = {
         valType: 'integer',
         value: parseFloat(currentValue)
     }
     expression.push(integer);
-    appendExpToDOM();
 }
 
 function appendExpToDOM(){ // this function just displays the new expression as it is most recently written
