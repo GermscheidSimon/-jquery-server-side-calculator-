@@ -12,35 +12,38 @@
     <h1>Calculator</h1>
     <!--Calculator defined inside wrapper below-->
     <div id="calculatorWrap">
-        <div id="InputScreen">
-            <input type="button" aria-label="open parentheses" class="charInput" id="openPar" value="(">
-            <input type="button" aria-label="close parentheses" class="charInput" id="closePar" value=")">
-            <input type="button" aria-label="remove previous character" class="charInput" id="bckSpc" value="&lt;-">
-            <input type="button" aria-label="clear expression" class="charInput" id="clearExp" value="C">
+        <div id="display">
+
+        </div>
+        <div id="charLine">
+            <input type="button" aria-label="open parentheses" class="operInput" id="openPar" value="(">
+            <input type="button" aria-label="close parentheses" class="operInput" id="closePar" value=")">
+            <input type="button" aria-label="remove previous character" class="modInput" id="bckSpc" value="&lt;-">
+            <input type="button" aria-label="clear expression" class="modInput" id="clearExp" value="C">
         </div>
         <div class="charLine">
-            <input type="button" aria-label="seven" class="charInput" id="seven" value="7">
-            <input type="button" aria-label="eight" class="charInput" id="eight" value="8">
-            <input type="button" aria-label="nine" class="charInput" id="nine" value="9">
-            <input type="button" aria-label="divide" class="charInput" id="divide" value="/">
+            <input type="button" aria-label="seven" class="charInput" value="7">
+            <input type="button" aria-label="eight" class="charInput" value="8">
+            <input type="button" aria-label="nine" class="charInput" value="9">
+            <input type="button" aria-label="divide" class="operInput" id="divide" value="/">
         </div>
         <div class="charLine">
-            <input type="button" aria-label="four" class="charInput" id="four" value="4">
-            <input type="button" aria-label="five" class="charInput" id="five" value="5">
-            <input type="button" aria-label="six" class="charInput" id="six" value="6">
-            <input type="button" aria-label="multiply" class="charInput" id="multi" value="x">
+            <input type="button" aria-label="four" class="charInput" value="4">
+            <input type="button" aria-label="five" class="charInput" value="5">
+            <input type="button" aria-label="six" class="charInput" value="6">
+            <input type="button" aria-label="multiply" class="operInput" id="multi" value="x">
         </div>
         <div class="charLine">
-            <input type="button" aria-label="one" class="charInput" id="one" value="1">
-            <input type="button" aria-label="two" class="charInput" id="two" value="2">
-            <input type="button" aria-label="three" class="charInput" id="three" value="3">
-            <input type="button" aria-label="subtract" class="charInput" id="subtract" value="-">
+            <input type="button" aria-label="one" class="charInput"  value="1">
+            <input type="button" aria-label="two" class="charInput" value="2">
+            <input type="button" aria-label="three" class="charInput"  value="3">
+            <input type="button" aria-label="subtract" class="operInput" id="subtract" value="-">
         </div>
         <div class="charLine">
-            <input type="button" aria-label="Reset Calculator" class="charInput" id="reset" value="Reset">
-            <input type="button" aria-label="decimal" class="charInput" id="decimal" value=".">
-            <input type="button" aria-label="calculate expression" class="charInput" id="equal" value="=">
-            <input type="button" aria-label="add" class="charInput" id="add" value="+">
+            <input type="button" aria-label="Reset Calculator" class="modInput" id="reset" value="Reset">
+            <input type="button" aria-label="decimal" class="charInput" value=".">
+            <input type="button" aria-label="calculate expression" class="modInput" id="equal" value="=">
+            <input type="button" aria-label="add" class="operInput" id="add" value="+">
         </div>
     </div>
 </body>
