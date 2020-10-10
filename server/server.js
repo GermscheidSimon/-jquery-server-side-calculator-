@@ -22,7 +22,8 @@ app.get('/calcHistory', (req, res) =>{
 // Define calcHistory POST requiest to update the history with the answer and new data
 app.post('/calcHistory', (req, res) =>{
     calcHistory.array.push(req.body);
-    parseExpression.function(calcHistory.newExp()); // evaluate newest expression
+    let newExp = parseExpression.function(calcHistory.newExp()); // evaluate newest expression
+    console.log(newExp);
     res.sendStatus(200);
 })
 
