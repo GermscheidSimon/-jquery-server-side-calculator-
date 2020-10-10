@@ -1,10 +1,14 @@
-let calcHistory = [
-
-];
-
-let newExpression = calcHistory[calcHistory.length - 1];
+let calcHistoryArray = [];
+function newestExpression() {
+    if (calcHistoryArray === []) {
+        console.log('no expressions currently in memory');
+        return;
+    }
+    let newExpression = calcHistoryArray[calcHistoryArray.length - 1];
+    return newExpression
+}
 
 module.exports = {
-    array: calcHistory,
-    newExp: newExpression
+    array: calcHistoryArray,
+    newExp: newestExpression
 }
