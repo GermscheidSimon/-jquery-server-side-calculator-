@@ -1,7 +1,7 @@
 // define express app and bodyparser dependecies 
 const express = require('express');
 const bodyParser = require('body-parser');
-const port = 5001;
+const port = 5000;
 const app = express();
 // set static files for homepage
 app.use(express.static('./server/public'));
