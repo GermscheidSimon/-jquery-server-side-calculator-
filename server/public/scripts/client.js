@@ -109,7 +109,19 @@ function appendExpToDOM(){ // this function just displays the new expression as 
     console.log(expression);
     $('#display').empty();
     for (let algObj of expression){ // algabraic object stored in the expression array
-       $('#display').append(algObj.value);
+        if (algObj.valType === 'operator') {
+            if (algObj.value === 'multiply') {
+                $('#display').append(' x ')
+            } else if (algObj.value === 'divide') {
+                $('#display').append(' / ')
+            } else if (algObj.value === 'add') {
+                $('#display').append(' + ')
+            } else if (algObj.value === 'subtract') {
+                $('#display').append(' x ')
+            }
+        } else{
+            $('#display').append(algObj.value);
+        }
     }
 }
 
