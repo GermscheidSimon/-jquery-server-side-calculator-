@@ -36,7 +36,7 @@ function addOpp() { // operators seporate floating point values, and also carry 
     }
     addValueToExp(value); // this will end creating a value and add it to the expression array
     value = 'def'          // resets value to default so that I know I need a number input next
-    let operator = $(this).val();
+    let operator = $(this).attr('id');
     let operObj = {
         valType: 'operator',
         value: operator

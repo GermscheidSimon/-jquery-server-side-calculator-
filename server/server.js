@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const calcHistory = require('./modules/calcHistory.js'); //stores expressions that are sent from client
 const parseExpression = require('./modules/parseExpression.js'); //reformates expressions to be solved more efficiently 
 const evaluate = require('./modules/evaluate.js'); //evaluates new expression
+const { newExp } = require('./modules/calcHistory.js');
 // GET and POST routing 
 
 // Define calcHistory GET request to provide user with requested data
@@ -22,8 +23,9 @@ app.get('/calcHistory', (req, res) =>{
 // Define calcHistory POST requiest to update the history with the answer and new data
 app.post('/calcHistory', (req, res) =>{
     calcHistory.array.push(req.body);
-    let newExp = parseExpression.function(calcHistory.newExp()); // evaluate newest expression
-    console.log(newExp);
+    let answer = parseExpression.getData();
+    console.log(answer);
+     //gives module data to be run
     res.sendStatus(200);
 })
 
