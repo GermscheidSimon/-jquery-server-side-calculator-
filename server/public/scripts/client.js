@@ -111,7 +111,6 @@ function postExpression() {  // this will run when the user hits the equal butto
         url: '/calcHistory',
         data:{
             "expression": expression, // expression stored in the a key
-            "answer": 0               // assigning the field that will be entered by the server
         }
     }).then((response) =>{
         console.log(response);

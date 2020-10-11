@@ -1,12 +1,11 @@
-let data = require('./calcHistory')
 
-let newExpression = [];     // a copy of the data if needed
-let workingExpression = []; // the 'stratch paper' for the computer as it iterates through the expression
-let answer = 0;   
-let iterations = 0;  // how many operators exist. this will determine how many times I must calculate
-let multiDivOper = 0; // how many multiplication operators exist in the expression
+ // the 'stratch paper' for the computer as it iterates through the expression
+ // how many operators exist. this will determine how many times it must calculate
+ // how many multiplication operators exist in the expression
 // since this app allows for long expressions the server will need to understand how to execute the expression
-// this function will be able to intake the expression from the client and create a three dimentional array that it can more easily understand
+// this function will be able to intake the expression from the client and work through it using order of operations from left to right
+// find() iterates through the array and in this case when if finds the first value of the type it is looking for it will run one of the math functions
+
 
 function add(num1, num2) {
     return parseFloat(num1) + parseFloat(num2);
@@ -21,76 +20,81 @@ function divide(num1, num2) {
     return parseFloat(num1) / parseFloat(num2);
 }
 
-function newestExpression() {
-    if (data.array === []) {
+//this function sets the stage. allowing the below functions to know where they are in the problem
+// it creates a working array of objects to use as 'scratch' paper
+function newestExpression(expressionObj) {
+    expressionObj = expressionObj[expressionObj.length -1].expression;
+    multiDivOper = 0; // resetting these values
+    iterations = 0; 
+    let answer = 0;
+    if (expressionObj === []) {
         console.log('no expressions currently in memory');
         return;
     }
-    newExpression = data.array[data.array.length - 1]; // set expression
-    workingExpression = newExpression.expression; // set working form when running calculation
-    for (let obj in workingExpression) {  // find any multiplication or division which need to be executed first
-        if (workingExpression[obj].value === 'multiply' || workingExpression[obj].value === 'divide') {
+    for (let obj in expressionObj) {  // find any multiplication or division which need to be executed first
+        if (expressionObj[obj].value === 'multiply' || expressionObj[obj].value === 'divide') {
             multiDivOper+=1
         }
-        console.log('multiDiv', multiDivOper);
-        
     }
-    for (let obj in workingExpression) { // add up all operators in expression
-        if (workingExpression[obj].valType === 'operator') {
+    for (let obj in expressionObj) { // add up all operators in expression. this will determine how many times math needs to be done
+        if (expressionObj[obj].valType === 'operator') { 
             iterations += 1
         }
     }
-    console.log('iterator', iterations);
-    evaluateMultiDiv(workingExpression);
+    if (multiDivOper > 0) {
+        answer = evaluateMultiDiv(expressionObj);
+    } else {
+        answer = evaluateAddSub(expressionObj);
+    }
+    return answer;
 }
 
 // this function will recursively solve for multiplication and division. it will solve left to right using the find() operator to locate any objects with a valType of Operation
 // then it will execute a math function of the given type (multi or div), and then update the iterations and multiDivOper values. these values help us know how many
 // items are left to complete for this function. 
 function evaluateMultiDiv(arrayOfObjects){
-    console.log(arrayOfObjects);
-        let nextOperation = arrayOfObjects.indexOf(arrayOfObjects.find(({value}) => value === 'multiply' || value === 'divide'));
-               if (arrayOfObjects[nextOperation].value === 'multiply' && multiDivOper > 0 && iterations > 0) {
-                   console.log(arrayOfObjects[nextOperation]);
-                    let newValu = multiply(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
-                    console.log(newValu);
-                    arrayOfObjects.splice(arrayOfObjects -1, 3, ({
-                        valType: 'integer',
-                        value: newValu
-                    })) //starting with the first number evaluated, remove 3 obj, and add new value
-                    console.log(arrayOfObjects);
-                    iterations -= 1;
-                    console.log(iterations, 'iterations left');
-                    multiDivOper -= 1;
-                    console.log(multiDivOper, 'mult or Div left');
-                    if (multiDivOper >= 1) {
-                        evaluateMultiDiv(arrayOfObjects); // re-run the function if there are still multiplication or division operators in the expression
-                    } else if (iterations >= 1) {
-                        evaluateAddSub(arrayOfObjects); // if there are still iterations left that means we still need to sovle for +  and - 
-                    } else if (iterations === 0) {
-                        return arrayOfObjects;  // if the expression contained no addition or subtraction, return the value left in the array.
-                    }
-            } else if (arrayOfObjects[nextOperation].value === 'divide' && multiDivOper > 0 && iterations > 0) {
-                    let newValu = divide(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
-                arrayOfObjects.splice(nextOperation-1, 3, ({
-                    valType: 'integer',
-                    value: newValu
-                })); //starting with the first number evaluated, remove 3 obj, and add new value
-                iterations -= 1;
-                multiDivOper -= 1;
-                console.log(arrayOfObjects);
-                if (multiDivOper >= 1) {
-                    evaluateMultiDiv(arrayOfObjects);
-                } else if (iterations >= 1) {
-                    evaluateAddSub(arrayOfObjects);
-                } else if (iterations === 0) {
-                    console.log('final answer', arrayOfObjects);
-                    return arrayOfObjects;
-                }
+         console.log(arrayOfObjects);
+    let nextOperation = arrayOfObjects.indexOf(arrayOfObjects.find(({value}) => value === 'multiply' || value === 'divide'));
+        console.log('in MultiDiv function. next operation index is', nextOperation);
+    if (arrayOfObjects[nextOperation].value === 'multiply' && multiDivOper > 0 && iterations > 0) {
+        let newValu = multiply(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
+        arrayOfObjects.splice(nextOperation-1, 3, ({
+            valType: 'integer',
+            value: newValu
+        })) //starting with the first number evaluated, remove 3 obj, and add new value
+        iterations -= 1;
+            console.log(iterations, 'iterations left from inside multiDiv');
+        multiDivOper -= 1;
+            console.log(multiDivOper, 'mult or Div left');
+        if (multiDivOper >= 1) {
+            console.log('completing multiplication or division next');
+            evaluateMultiDiv(arrayOfObjects); // re-run the function if there are still multiplication or division operators in the expression
+        } else if (iterations >= 1) {
+            evaluateAddSub(arrayOfObjects); // if there are still iterations left that means we still need to sovle for +  and - 
+        } else if (iterations === 0) {
+            return arrayOfObjects[0].value;// if the expression contained no addition or subtraction, return the value left in the array.
         }
+    } else if (arrayOfObjects[nextOperation].value === 'divide' && multiDivOper > 0 && iterations > 0) {
+        let newValu = divide(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
+        arrayOfObjects.splice(nextOperation-1, 3, ({
+            valType: 'integer',
+            value: newValu
+        })); //starting with the first number evaluated, remove 3 obj, and add new value
+        iterations -= 1;
+        multiDivOper -= 1;
+        console.log(arrayOfObjects);
+        if (multiDivOper >= 1) {
+            evaluateMultiDiv(arrayOfObjects);
+        } else if (iterations >= 1) {
+            evaluateAddSub(arrayOfObjects);
+        } else if (iterations === 0) {
+            return arrayOfObjects[0].value;
+        }
+    }
 }
 function evaluateAddSub(arrayOfObjects) {
     let nextOperation = arrayOfObjects.indexOf(arrayOfObjects.find(({value}) => value === 'add' || value === 'subtrack'));
+        console.log('next operation is in add/sub', nextOperation);
     if (arrayOfObjects[nextOperation].value === 'subtract' && iterations > 0) {
          let newValu = subtract(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
          arrayOfObjects.splice(nextOperation-1, 3, ({
@@ -98,10 +102,11 @@ function evaluateAddSub(arrayOfObjects) {
              value: newValu
          })); //starting with the first number evaluated, remove 3 obj, and add new value
          iterations -= 1;
+         console.log('iterations left', iterations);
          if (iterations > 0) {
              evaluateAddSub(arrayOfObjects);
          } else {
-           return arrayOfObjects;
+            return arrayOfObjects[0].value;
         }  
     }else if (arrayOfObjects[nextOperation].value === 'add' && iterations > 0) {
         let newValu = add(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
@@ -110,16 +115,16 @@ function evaluateAddSub(arrayOfObjects) {
             value: newValu
         })); //starting with the first number evaluated, remove 3 obj, and add new value
         iterations -= 1;
+        console.log('iterations left add', iterations);
         if (iterations > 0) {
             evaluateAddSub(arrayOfObjects);
         }else {
-            console.log(arrayOfObjects);
-            return arrayOfObjects;
+            return arrayOfObjects[0].value;
         }
     }
 }
 
-// // to say this is a horrifying piece of code is possibly an understatement, but I'm not sure of a better way to traverse this feature
+// // to say this is a horrifying piece of code is possibly an understatement
 // function parseAndOrderExp(expressionObj) {
 //     let expression = expressionObj.expression;
 //     console.log(expression);
@@ -189,9 +194,6 @@ function evaluateAddSub(arrayOfObjects) {
 //     return parsedExp;
 // }
 
-
-
 module.exports = {
-    getData: newestExpression,
-    data: answer
+    getData: newestExpression
 }

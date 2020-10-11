@@ -8,23 +8,33 @@ app.use(express.static('./server/public'));
 // let express know how to use bodyparser
 app.use(bodyParser.urlencoded({extended: true}));
 // require module functionality here
-const calcHistory = require('./modules/calcHistory.js'); //stores expressions that are sent from client
-const parseExpression = require('./modules/parseExpression.js'); //reformates expressions to be solved more efficiently 
-const evaluate = require('./modules/evaluate.js'); //evaluates new expression
-const { newExp } = require('./modules/calcHistory.js');
+const { getData } = require('./modules/parseExpression.js');
+
+let expressionArray = [];
+let answerArray = [];
+
+function setExpression(array) {
+    let iterations = 0;
+    let multiDivOper = 0;
+    let expression = JSON.parse(JSON.stringify(array)); // APPARENTLY cloning the array doesn't work on nested arrays of objects in the manner I am using them.
+    return getData(expression);                          //stringifying is enough to allow me to remove any connection to the orignal array
+}
 // GET and POST routing 
 
 // Define calcHistory GET request to provide user with requested data
 app.get('/calcHistory', (req, res) =>{
-    console.log(calcHistory);
-    res.send(calcHistory);
+    res.send({
+       expressionArray: expressionArray,
+       answerArray: answerArray
+    });
 })
 
 // Define calcHistory POST requiest to update the history with the answer and new data
 app.post('/calcHistory', (req, res) =>{
-    calcHistory.array.push(req.body);
-    let answer = parseExpression.getData();
-    console.log(answer);
+    expressionArray.push(req.body); // add client data to array
+    let answer = setExpression(expressionArray);
+    answerArray.push(answer);
+    console.log(answerArray);
      //gives module data to be run
     res.sendStatus(200);
 })

@@ -1,6 +1,8 @@
-let calcHistoryArray = [];
+let expressionHistoryArray = [];
 
+let answerHistory = []
 
 module.exports = {
-    array: calcHistoryArray
+    expressionArray: expressionHistoryArray,
+    answerArray: answerHistory
 }
