@@ -17,7 +17,10 @@ function setExpression(array) {
     let iterations = 0;
     let multiDivOper = 0;
     let expression = JSON.parse(JSON.stringify(array)); // APPARENTLY cloning the array doesn't work on nested arrays of objects in the manner I am using them.
-    return getData(expression);                          //stringifying is enough to allow me to remove any connection to the orignal array
+                                                        //stringifying is enough to allow me to remove any connection to the orignal array
+    let answer = getData(expression)
+    console.log('inServerJS', answer);
+    return answer;                          
 }
 // GET and POST routing 
 

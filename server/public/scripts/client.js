@@ -1,3 +1,5 @@
+
+
 // run function when page loaded
 $(document).ready(onReady);
 
@@ -9,6 +11,7 @@ function onReady() {
     $('.charInput').on('click', buildNum); //build a floating point value 
     $('.operInput').on('click', addOpp); // add operators inbetween a value
     $('.modInput').on('click', runMod); // reset button, submit expression, clear expression, and backspace
+    displayHistory();
 }
 
 //declare global variable
@@ -114,7 +117,51 @@ function postExpression() {  // this will run when the user hits the equal butto
         }
     }).then((response) =>{
         console.log(response);
+        displayHistory();
     }).catch((error) =>{
         alert(error);
     })
 }
+
+function displayHistory() {
+    $.ajax({
+        method: 'get',
+        url: '/calcHistory'
+    }).then((response) =>{
+        console.log(response);
+        appendHistoryToDOM(response)
+    }).catch((error) =>{
+        alert(error);
+    })
+}
+
+function appendHistoryToDOM(histData) {
+    $('#history').empty()
+
+    listOfExpressions = histData.expressionArray;
+    listOfAnswers = histData.answerArray;
+    for (indexOfExpressionObj in listOfExpressions) {
+        let expressionObj = listOfExpressions[indexOfExpressionObj]
+        for (char of expressionObj.expression) {
+            if (char.valType === 'operator') {
+                if (char.value === 'multiply') {
+                    $('#history').append(' x ')
+                } else if (char.value === 'divide') {
+                    $('#history').append(' / ')
+                } else if (char.value === 'add') {
+                    $('#history').append(' + ')
+                } else if (char.value === 'subtract') {
+                    $('#history').append(' x ')
+                }
+            } else {
+                $('#history').append(`
+                ${char.value}
+                `)
+            } 
+        }
+        $('#history').append(`
+            = ${listOfAnswers[indexOfExpressionObj]}
+            <br>
+        `)
+    }    
+} 
