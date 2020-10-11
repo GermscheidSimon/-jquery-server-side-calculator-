@@ -1,12 +1,9 @@
 
- // the 'stratch paper' for the computer as it iterates through the expression
- // how many operators exist. this will determine how many times it must calculate
- // how many multiplication operators exist in the expression
-// since this app allows for long expressions the server will need to understand how to execute the expression
 // this function will be able to intake the expression from the client and work through it using order of operations from left to right
 // find() iterates through the array and in this case when if finds the first value of the type it is looking for it will run one of the math functions
 
 
+//math formula functions
 function add(num1, num2) {
     return parseFloat(num1) + parseFloat(num2);
 }
@@ -25,7 +22,7 @@ function divide(num1, num2) {
 function newestExpression(expressionObj) {
     expressionObj = expressionObj[expressionObj.length -1].expression;
     multiDivOper = 0; // resetting these values
-    iterations = 0; 
+    iterations = 0;   // how many operators exist. this will determine how many times it must calculate
     let answer = 0;
     if (expressionObj === []) {
         console.log('no expressions currently in memory');

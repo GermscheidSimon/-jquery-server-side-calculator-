@@ -10,12 +10,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 // require module functionality here
 const { getData } = require('./modules/parseExpression.js');
 
-let expressionArray = [];
+let expressionArray = []; 
 let answerArray = [];
 
 function setExpression(array) {
     let iterations = 0;
     let multiDivOper = 0;
+     // the 'stratch paper' for the computer as it iterates through the expression
     let expression = JSON.parse(JSON.stringify(array)); // APPARENTLY cloning the array doesn't work on nested arrays of objects in the manner I am using them.
                                                         //stringifying is enough to allow me to remove any connection to the orignal array
     let answer = getData(expression)

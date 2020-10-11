@@ -1,2 +1,29 @@
 
 /* determine how wrapper divs will work, and clean up css */
+#calculatorWrap{
+    border: 4px, black, solid;
+    background-color: lightgrey;
+    max-width: 30%;
+    text-align: center;
+}
+#display{
+    min-height: 50px;
+    text-align: center;
+    padding: 3%
+}
+#reset{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.modInput{
+    font-size: 20px;
+    padding: 10px;
+}
+.charInput{
+    font-size: 20px;
+    padding: 10px
+}
+.operInput{
+    font-size: 20px;
+    padding: 10px
+}

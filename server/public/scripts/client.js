@@ -33,8 +33,6 @@ function buildNum() { //this function is called whenever a character input is en
 
 function addOpp() { // operators seporate floating point values, and also carry their own weight in PEMDAS, so I want to be able to access the operator easily on the server side and determine how the function
                     // will be solved (order)
-
-    let lastExpObj = expression[expression.length -1]; // creating a variable that will help me verify that an expression is being created properly
     if (value === 'bck') { // if operator selected prep for a new num to be built
         value = 'def'
     } else if (value === 'def') { // if value is still def prevent the user from inputing invalid expression
@@ -65,15 +63,14 @@ function runMod() { // this function defines a list of buttons that perform misc
             return;
         }
         // executed if data valid
-        addValueToExp(value);
-        console.log(expression);
-        postExpression();
-        expression = [];
-        value='def';
-        appendExpToDOM();
+        addValueToExp(value); // add value integer to array
+        postExpression(); //send expression to server
+        expression = []; //reset expression array for next problem
+        value='def'; // prime value to be ready to build a new number
+        appendExpToDOM(); // display value from above to DOM
     } else if (mod === 'clearExp') {
         // clear expression and reset value
-        expression = [];
+        expression = []; 
         value = 'def'
         // empty DOM field
         appendExpToDOM()
@@ -89,7 +86,7 @@ function runMod() { // this function defines a list of buttons that perform misc
         if (value > 0) {
             addValueToExp(value);
         }
-        value = 'bck'
+        value = 'bck' // special instance value for when backspace is used
         //remove last item in expression
         expression.pop()
         //append new expression to DOM
@@ -110,7 +107,7 @@ function appendExpToDOM(){ // this function just displays the new expression as 
     $('#display').empty();
     for (let algObj of expression){ // algabraic object stored in the expression array
         if (algObj.valType === 'operator') {
-            if (algObj.value === 'multiply') {
+            if (algObj.value === 'multiply') { // translate operators into characters
                 $('#display').append(' x ')
             } else if (algObj.value === 'divide') {
                 $('#display').append(' / ')
@@ -137,7 +134,7 @@ function postExpression() {  // this will run when the user hits the equal butto
         data:{
             "expression": expression, // expression stored in the a key
         }
-    }).then((response) =>{
+    }).then((response) =>{ // once new expression posted, display all histroy
         console.log(response);
         displayHistory();
     }).catch((error) =>{
@@ -145,7 +142,7 @@ function postExpression() {  // this will run when the user hits the equal butto
     })
 }
 
-function displayHistory() {
+function displayHistory() { // get gistory data
     $.ajax({
         method: 'get',
         url: '/calcHistory'
@@ -157,14 +154,14 @@ function displayHistory() {
     })
 }
 
-function appendHistoryToDOM(histData) {
+function appendHistoryToDOM(histData) { // appends all historical expressions to DOM
     $('#history').empty()
 
     listOfExpressions = histData.expressionArray;
     listOfAnswers = histData.answerArray;
     for (indexOfExpressionObj in listOfExpressions) {
         let expressionObj = listOfExpressions[indexOfExpressionObj]
-        for (char of expressionObj.expression) {
+        for (char of expressionObj.expression) { // translate operators to characters
             if (char.valType === 'operator') {
                 if (char.value === 'multiply') {
                     $('#history').append(' x ')
@@ -188,7 +185,7 @@ function appendHistoryToDOM(histData) {
     }    
 } 
 
-function resetHistory() {
+function resetHistory() { //This function runs a delete request to clear the array of expressions
     $.ajax({
         method: 'DELETE',
         url: '/calcHistory'
