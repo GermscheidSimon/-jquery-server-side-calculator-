@@ -42,6 +42,11 @@ app.post('/calcHistory', (req, res) =>{
     res.sendStatus(200);
 })
 
+app.delete('/calcHistory', (req, res) =>{
+    expressionArray = [];
+    answerArray = [];
+    res.sendStatus(200)
+})
 
 app.listen(port, () =>{
     console.log('Server live on', port);

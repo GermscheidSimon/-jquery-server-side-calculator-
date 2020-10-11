@@ -1,5 +1,4 @@
 
-
 // run function when page loaded
 $(document).ready(onReady);
 
@@ -21,8 +20,11 @@ let value = 'def';  // this is a storage place for the integer created by the bu
             
 function buildNum() { //this function is called whenever a character input is entered. this allows you to add multiple numbers or a decimal in a row and build a floating point value
     let char = $(this).val(); 
-    if (value === 'def') { // this conditional initializes a number being built. 
+    if (value === 'def' ) { // this conditional initializes a number being built. 
         value = 0
+    } else if (value === 'bck') {
+        alert('Please enter an operator between integers')
+        return;
     }
     value = value + char;
     // display new expression to dom
@@ -33,11 +35,15 @@ function addOpp() { // operators seporate floating point values, and also carry 
                     // will be solved (order)
 
     let lastExpObj = expression[expression.length -1]; // creating a variable that will help me verify that an expression is being created properly
-    if (value === 'def') {
+    if (value === 'bck') { // if operator selected prep for a new num to be built
+        value = 'def'
+    } else if (value === 'def') { // if value is still def prevent the user from inputing invalid expression
         alert('Please separate operators with a valid integer');
         return;
+    } else{ // if value was a number add it to the array
+        addValueToExp(value); 
     }
-    addValueToExp(value); // this will end creating a value and add it to the expression array
+    // this will end creating a value and add it to the expression array
     value = 'def'          // resets value to default so that I know I need a number input next
     let operator = $(this).attr('id');
     let operObj = {
@@ -63,7 +69,8 @@ function runMod() { // this function defines a list of buttons that perform misc
         console.log(expression);
         postExpression();
         expression = [];
-        appendExpToDOM;
+        value='def';
+        appendExpToDOM();
     } else if (mod === 'clearExp') {
         // clear expression and reset value
         expression = [];
@@ -73,13 +80,16 @@ function runMod() { // this function defines a list of buttons that perform misc
     } else if (mod === 'reset') {
         // clear expression and reset value
         expression = [];
-        value = 'def'
+        value = 'def';
         // clear all history
+        resetHistory();
         // empty DOM field
-        appendExpToDOM()
+        appendExpToDOM();
     } else if (mod === 'bckSpc') {
-        addValueToExp(value);
-        value = 'def'
+        if (value > 0) {
+            addValueToExp(value);
+        }
+        value = 'bck'
         //remove last item in expression
         expression.pop()
         //append new expression to DOM
@@ -165,3 +175,15 @@ function appendHistoryToDOM(histData) {
         `)
     }    
 } 
+
+function resetHistory() {
+    $.ajax({
+        method: 'DELETE',
+        url: '/calcHistory'
+    }).then((response) =>{
+        console.log(response);
+        displayHistory();
+    }).catch((error) =>{
+        alert(error)
+    })
+}
