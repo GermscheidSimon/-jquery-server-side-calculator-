@@ -64,13 +64,13 @@ function evaluateMultiDiv(arrayOfObjects){
         iterations -= 1;
         multiDivOper -= 1;
         if (multiDivOper >= 1) {
-            evaluateMultiDiv(arrayOfObjects); // re-run the function if there are still multiplication or division operators in the expression
+            return evaluateMultiDiv(arrayOfObjects); // re-run the function if there are still multiplication or division operators in the expression
         } else if (iterations >= 1) {
-            evaluateAddSub(arrayOfObjects); // if there are still iterations left that means we still need to sovle for +  and - 
+            return evaluateAddSub(arrayOfObjects); // if there are still iterations left that means we still need to sovle for +  and - 
         } else if (iterations === 0) {
             console.log('answer is', arrayOfObjects);
             return arrayOfObjects[0].value;// if the expression contained no addition or subtraction, return the value left in the array.
-        }
+        } 
     } else if (arrayOfObjects[nextOperation].value === 'divide' && multiDivOper > 0 && iterations > 0) {
         let newValu = divide(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
         arrayOfObjects.splice(nextOperation-1, 3, ({
@@ -80,9 +80,9 @@ function evaluateMultiDiv(arrayOfObjects){
         iterations -= 1;
         multiDivOper -= 1;
         if (multiDivOper >= 1) {
-            evaluateMultiDiv(arrayOfObjects);
+            return evaluateMultiDiv(arrayOfObjects);
         } else if (iterations >= 1) {
-            evaluateAddSub(arrayOfObjects);
+            return evaluateAddSub(arrayOfObjects);
         } else if (iterations === 0) {
             console.log('answer is', arrayOfObjects);
             return arrayOfObjects[0].value;
@@ -99,7 +99,7 @@ function evaluateAddSub(arrayOfObjects) {
          })); //starting with the first number evaluated, remove 3 obj, and add new value
          iterations -= 1;
          if (iterations > 0) {
-             evaluateAddSub(arrayOfObjects);
+             return evaluateAddSub(arrayOfObjects);
          } else {
             console.log('answer is', arrayOfObjects);
             return arrayOfObjects[0].value;
@@ -112,7 +112,7 @@ function evaluateAddSub(arrayOfObjects) {
         })); //starting with the first number evaluated, remove 3 obj, and add new value
         iterations -= 1;
         if (iterations > 0) {
-            evaluateAddSub(arrayOfObjects);
+            return evaluateAddSub(arrayOfObjects);
         }else {
             console.log('answer is', arrayOfObjects);
             return arrayOfObjects[0].value;
