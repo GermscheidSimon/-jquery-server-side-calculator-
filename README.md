@@ -2,9 +2,9 @@
 
 ## Description
 
-Duration = Weekend projecet 
+Duration = Weekend projecet
 
-This is my server side calculator. When I set out on this project I wanted to be able to evaluate expressions that were long handed, and that may require order of operations to solve. 
+This is my server side calculator. When I set out on this project I wanted to be able to evaluate expressions that were long handed, and that may require order of operations to solve.
 
 The logic on the server side involves using recursive functions to evaluate problems using order of operations. It was very challegning but super fun to complete!
 
@@ -33,4 +33,6 @@ I am able to have very detailed logic on the server side becuse of the work to g
     express.js
     bodyparser
 ## Acknowledgement
-    this was a really fun project that I completed during week 8 of Prime Digital Academy. 
+    this was a really fun project that I completed during week 8 of Prime Digital Academy. I want to thank them for equipping me with the tools necessary to complete this app!
+## support
+    If you have suggestions or issues, please email me at sgermscheid@gmail.com
