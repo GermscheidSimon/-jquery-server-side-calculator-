@@ -1,7 +1,7 @@
-// define express app and bodyparser dependecies 
+// define express app and bodyparser dependecies
 const express = require('express');
 const bodyParser = require('body-parser');
-const port = 5000;
+const port = process.env.PORT || 5000;
 const app = express();
 // set static files for homepage
 app.use(express.static('./server/public'));
@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // require module functionality here
 const { getData } = require('./modules/parseExpression.js');
 
-let expressionArray = []; 
+let expressionArray = [];
 let answerArray = [];
 
 function setExpression(array) {
@@ -21,9 +21,9 @@ function setExpression(array) {
                                                         //stringifying is enough to allow me to remove any connection to the orignal array
     let answer = getData(expression)
     console.log('inServerJS', answer);
-    return answer;                          
+    return answer;
 }
-// GET and POST routing 
+// GET and POST routing
 
 // Define calcHistory GET request to provide user with requested data
 app.get('/calcHistory', (req, res) =>{
