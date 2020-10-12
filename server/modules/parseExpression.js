@@ -87,7 +87,7 @@ function evaluateMultiDiv(arrayOfObjects){
     }
 }
 function evaluateAddSub(arrayOfObjects) {
-    let nextOperation = arrayOfObjects.indexOf(arrayOfObjects.find(({value}) => value === 'add' || value === 'subtrack'));
+    let nextOperation = arrayOfObjects.indexOf(arrayOfObjects.find(({value}) => value === 'add' || value === 'subtract'));
     if (arrayOfObjects[nextOperation].value === 'subtract' && iterations > 0) {
          let newValu = subtract(arrayOfObjects[nextOperation-1].value, arrayOfObjects[nextOperation+1].value);
          arrayOfObjects.splice(nextOperation-1, 3, ({

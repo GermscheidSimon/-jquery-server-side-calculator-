@@ -114,7 +114,7 @@ function appendExpToDOM(){ // this function just displays the new expression as 
             } else if (algObj.value === 'add') {
                 $('#display').append(' + ')
             } else if (algObj.value === 'subtract') {
-                $('#display').append(' x ')
+                $('#display').append(' - ')
             }
         } else{
             $('#display').append(algObj.value);
@@ -170,7 +170,7 @@ function appendHistoryToDOM(histData) { // appends all historical expressions to
                 } else if (char.value === 'add') {
                     $('#history').append(' + ')
                 } else if (char.value === 'subtract') {
-                    $('#history').append(' x ')
+                    $('#history').append(' - ')
                 }
             } else {
                 $('#history').append(`

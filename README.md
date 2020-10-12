@@ -21,6 +21,7 @@ I am able to have very detailed logic on the server side becuse of the work to g
     6. view local server (localhost:5000, or 127.0.0.1:5000)
 
 ## Usage
+![calculator interface](/instructions/images/calculator_Image.png)
     1. calculator works similar to a normal calc, however there is no text field for the user to input directly
     2. C button clears currect expression
     3. reset deletes all history from the server and the current expression
